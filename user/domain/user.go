@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"errors"
 	"time"
 
 	uuid "github.com/satori/go.uuid"
@@ -29,6 +30,11 @@ func NewUser(service UserService, name, email, password string) (*User, error) {
 	pwd, err := service.HashPassword(password)
 	if err != nil {
 		return nil, err
+	}
+
+	isExists, err := service.IsEmailAlreadyExists(email)
+	if isExists {
+		return nil, errors.New("Email has already been taken")
 	}
 
 	return &User{
