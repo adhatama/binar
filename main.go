@@ -20,9 +20,9 @@ import (
 )
 
 func main() {
-	e := echo.New()
-
 	db := initSqlite()
+
+	e := echo.New()
 
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
@@ -84,7 +84,6 @@ func tokenValidation(db *sqlx.DB) echo.MiddlewareFunc {
 					"message": "Unauthorized",
 				}
 				return response.JSON(c, http.StatusUnauthorized, resp)
-				// return c.JSON(http.StatusUnauthorized, map[string]string{"result": "Unauthorized"})
 			}
 
 			id := ""

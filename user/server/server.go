@@ -98,7 +98,7 @@ func (s *Server) Login(c echo.Context) error {
 	user, err := s.UserRepo.Login(req.Email, req.Password)
 	if err != nil {
 		resp.Errors = map[string]interface{}{
-			"message": err.Error(),
+			"message": "Invalid password",
 		}
 		return response.JSON(c, http.StatusInternalServerError, resp)
 	}
