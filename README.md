@@ -5,6 +5,8 @@ An another demo CRUD app, with simple auth
 - Go 1.11 (Needed for Go modules support)
 - gcc (Needed to build app using SQLite3)
   - For more information about gcc, please see https://github.com/mattn/go-sqlite3
+  - run `gcc -v` from terminal to check if the gcc is available in $PATH
+  - gcc installation in Windows: https://github.com/mattn/go-sqlite3/issues/212#issuecomment-273531789
 
 ## Installation
 - Clone this repo
