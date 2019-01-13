@@ -1,26 +1,37 @@
 package server
 
-import (
-	"errors"
-)
-
 type CreateProductFormRequest struct {
 	Name     string `json:"name"`
 	Price    int    `json:"price"`
 	ImageURL string `json:"imageurl"`
 }
 
-func (r CreateProductFormRequest) Validate() map[string][]error {
-	errs := make(map[string][]error)
+func (r CreateProductFormRequest) Validate() map[string]interface{} {
+	errs := make(map[string]interface{})
 
+	nameErrs := []string{}
 	if r.Name == "" {
-		errs["name"] = append(errs["name"], errors.New("REQUIRED"))
+		nameErrs = append(nameErrs, "Cannot be blank")
 	}
+
+	priceErrs := []string{}
 	if r.Price == 0 {
-		errs["price"] = append(errs["price"], errors.New("REQUIRED"))
+		priceErrs = append(priceErrs, "Cannot be blank")
 	}
+
+	imageURLErrs := []string{}
 	if r.ImageURL == "" {
-		errs["imageurl"] = append(errs["imageurl"], errors.New("REQUIRED"))
+		imageURLErrs = append(imageURLErrs, "Cannot be blank")
+	}
+
+	if len(nameErrs) > 0 {
+		errs["name"] = nameErrs
+	}
+	if len(priceErrs) > 0 {
+		errs["price"] = priceErrs
+	}
+	if len(imageURLErrs) > 0 {
+		errs["imageurl"] = imageURLErrs
 	}
 
 	return errs

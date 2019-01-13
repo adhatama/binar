@@ -3,6 +3,7 @@ package server
 import (
 	"go-binar/product/repository"
 	"go-binar/product/repository/sqlite"
+	"go-binar/response"
 	"net/http"
 
 	"github.com/jmoiron/sqlx"
@@ -26,8 +27,8 @@ func (s *ServerV2) Mount(g *echo.Group) {
 }
 
 func (s *ServerV2) GetAllProduct(c echo.Context) error {
-	resp := map[string]interface{}{}
-	resp["message"] = "Hello there"
+	resp := response.Response{}
+	resp.Result = "Hello there"
 
 	return c.JSON(http.StatusOK, resp)
 }

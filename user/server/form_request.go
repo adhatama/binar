@@ -8,17 +8,32 @@ type SignupFormRequest struct {
 	Password string `json:"password"`
 }
 
-func (r SignupFormRequest) Validate() map[string][]error {
-	errs := make(map[string][]error)
+func (r SignupFormRequest) Validate() map[string]interface{} {
+	errs := make(map[string]interface{})
 
+	nameErrs := []string{}
 	if r.Name == "" {
-		errs["name"] = append(errs["name"], errors.New("Name cannot be empty"))
+		nameErrs = append(nameErrs, "Cannot be blank")
 	}
+
+	emailErrs := []string{}
 	if r.Email == "" {
-		errs["email"] = append(errs["email"], errors.New("Email cannot be empty"))
+		emailErrs = append(emailErrs, "Cannot be blank")
 	}
+
+	passwordErrs := []string{}
 	if r.Password == "" {
-		errs["password"] = append(errs["password"], errors.New("Password cannot be empty"))
+		passwordErrs = append(passwordErrs, "Cannot be blank")
+	}
+
+	if len(nameErrs) > 0 {
+		errs["name"] = nameErrs
+	}
+	if len(emailErrs) > 0 {
+		errs["email"] = emailErrs
+	}
+	if len(passwordErrs) > 0 {
+		errs["password"] = passwordErrs
 	}
 
 	return errs
@@ -29,14 +44,14 @@ type LoginFormRequest struct {
 	Password string `json:"password"`
 }
 
-func (r LoginFormRequest) Validate() map[string][]error {
-	errs := make(map[string][]error)
+func (r LoginFormRequest) Validate() map[string]interface{} {
+	errs := make(map[string]interface{})
 
 	if r.Email == "" {
-		errs["email"] = append(errs["email"], errors.New("Email cannot be empty"))
+		errs["email"] = []error{errors.New("Cannot be blank")}
 	}
 	if r.Password == "" {
-		errs["password"] = append(errs["password"], errors.New("Password cannot be empty"))
+		errs["password"] = []error{errors.New("Cannot be blank")}
 	}
 
 	return errs

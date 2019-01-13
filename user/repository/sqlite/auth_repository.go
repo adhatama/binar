@@ -1,6 +1,7 @@
 package sqlite
 
 import (
+	"database/sql"
 	"go-binar/user/domain"
 
 	"github.com/jmoiron/sqlx"
@@ -19,8 +20,11 @@ func (r AuthRepository) FindByUserID(userID uuid.UUID) (*domain.Auth, error) {
 	auth := domain.Auth{}
 
 	err := r.DB.Get(&auth, `SELECT * FROM user_auth WHERE user_id = ?`, userID)
-	if err != nil {
+	if err != nil && err != sql.ErrNoRows {
 		return nil, err
+	}
+	if err == sql.ErrNoRows {
+		return nil, nil
 	}
 
 	return &auth, nil
